@@ -2,6 +2,8 @@
 
 import { X, MapPin } from "lucide-react";
 import type { SidebarContent } from "@/types";
+import TransactionPanel from "./panels/TransactionPanel";
+import ZoneStatsPanel from "./panels/ZoneStatsPanel";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -49,15 +51,15 @@ function SidebarHeader({
 }) {
   return (
     <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
-      <div className="flex items-center gap-2">
-        <MapPin className="h-4 w-4 text-blue-600" />
-        <h2 className="text-base font-semibold text-gray-900">
+      <div className="flex items-center gap-2 min-w-0">
+        <MapPin className="h-4 w-4 text-blue-600 flex-shrink-0" />
+        <h2 className="text-base font-semibold text-gray-900 truncate">
           {title || "Détails"}
         </h2>
       </div>
       <button
         onClick={onClose}
-        className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+        className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
       >
         <X className="h-4 w-4 text-gray-500" />
       </button>
@@ -77,14 +79,18 @@ function SidebarBody({ content }: { content: SidebarContent | null }) {
     );
   }
 
-  // Placeholder - sera enrichi avec les vraies données par couche
-  return (
-    <div className="space-y-4">
-      <div className="p-4 bg-blue-50 rounded-xl">
-        <p className="text-sm text-blue-800">
-          Les données seront affichées ici une fois les couches connectées.
-        </p>
-      </div>
-    </div>
-  );
+  switch (content.type) {
+    case "transaction":
+      return <TransactionPanel data={content.data} />;
+    case "zone_stats":
+      return <ZoneStatsPanel data={content.data} />;
+    default:
+      return (
+        <div className="p-4 bg-blue-50 rounded-xl">
+          <p className="text-sm text-blue-800">
+            Contenu &quot;{content.type}&quot; — bientôt disponible.
+          </p>
+        </div>
+      );
+  }
 }

@@ -6,6 +6,7 @@ import Logo from "@/components/ui/Logo";
 import SearchBar from "@/components/map/SearchBar";
 import LayerSelector from "@/components/map/LayerSelector";
 import Sidebar from "@/components/sidebar/Sidebar";
+import DvfLayer from "@/components/layers/DvfLayer";
 import { useMap } from "@/hooks/useMap";
 import { useLayers } from "@/hooks/useLayers";
 import type { SidebarContent } from "@/types";
@@ -15,8 +16,8 @@ const MapContainer = dynamic(() => import("@/components/map/MapContainer"), {
 });
 
 export default function Home() {
-  const { initializeMap, flyTo, isMapReady } = useMap();
-  const { activeLayers, toggleLayer } = useLayers();
+  const { mapRef, initializeMap, flyTo, isMapReady } = useMap();
+  const { activeLayers, toggleLayer, isLayerActive } = useLayers();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarContent, setSidebarContent] = useState<SidebarContent | null>(
     null
@@ -34,10 +35,26 @@ export default function Home() {
     setSidebarContent(null);
   }, []);
 
+  const handleFeatureClick = useCallback((content: SidebarContent) => {
+    setSidebarContent(content);
+    setSidebarOpen(true);
+  }, []);
+
   return (
     <div className="relative h-screen w-screen overflow-hidden">
       {/* Carte */}
       <MapContainer onMapInit={initializeMap} />
+
+      {/* Couches de données */}
+      {isMapReady && (
+        <>
+          <DvfLayer
+            map={mapRef.current}
+            isActive={isLayerActive("dvf")}
+            onFeatureClick={handleFeatureClick}
+          />
+        </>
+      )}
 
       {/* Header overlay */}
       <div className="absolute top-0 left-0 right-0 z-10 pointer-events-none">
@@ -90,6 +107,39 @@ export default function Home() {
         onClose={handleCloseSidebar}
         content={sidebarContent}
       />
+
+      {/* Legend (quand DVF est active) */}
+      {isMapReady && isLayerActive("dvf") && (
+        <div className="absolute bottom-10 left-3 z-10 pointer-events-auto animate-fade-in">
+          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-3">
+            <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+              Prix au m²
+            </p>
+            <div className="flex items-center gap-1">
+              {[
+                { color: "#22c55e", label: "< 1 500€" },
+                { color: "#84cc16", label: "" },
+                { color: "#eab308", label: "2 000€" },
+                { color: "#f97316", label: "" },
+                { color: "#ef4444", label: "3 000€" },
+                { color: "#dc2626", label: "> 4 000€" },
+              ].map((item, i) => (
+                <div key={i} className="flex flex-col items-center">
+                  <div
+                    className="w-6 h-2.5 rounded-sm"
+                    style={{ backgroundColor: item.color }}
+                  />
+                  {item.label && (
+                    <span className="text-[8px] text-gray-500 mt-0.5">
+                      {item.label}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Attribution footer */}
       <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none">
