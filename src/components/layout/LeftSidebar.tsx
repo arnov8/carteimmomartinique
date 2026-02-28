@@ -18,13 +18,13 @@ import {
 import Logo from "@/components/ui/Logo";
 import type { LayerId } from "@/types";
 
-interface LayerFilters {
+export interface LayerFilters {
   dvf: { priceMin: number; priceMax: number; types: string[] };
   annonces: { types: string[] };
   permis: { decisions: string[] };
 }
 
-interface DemoLeftSidebarProps {
+interface LeftSidebarProps {
   activeLayers: Set<LayerId>;
   onToggleLayer: (id: LayerId) => void;
   currentZoom: number;
@@ -56,13 +56,13 @@ const PERMIS_DECISIONS = [
   { value: "refuse", label: "Refusé", color: "#ef4444" },
 ];
 
-export default function DemoLeftSidebar({
+export default function LeftSidebar({
   activeLayers,
   onToggleLayer,
   currentZoom,
   filters,
   onFiltersChange,
-}: DemoLeftSidebarProps) {
+}: LeftSidebarProps) {
   const [expandedFilter, setExpandedFilter] = useState<LayerId | null>(null);
 
   const toggleFilter = (id: LayerId) => {
@@ -88,12 +88,7 @@ export default function DemoLeftSidebar({
     <div className="hidden md:flex flex-col w-[380px] h-full bg-white border-r border-gray-200 flex-shrink-0 shadow-sm">
       {/* Header */}
       <div className="px-8 py-6 border-b border-gray-100">
-        <div className="flex items-center gap-4">
-          <Logo size="md" />
-          <span className="bg-amber-100 text-amber-800 text-sm font-bold px-4 py-2 rounded-lg">
-            DÉMO
-          </span>
-        </div>
+        <Logo size="md" />
       </div>
 
       {/* Section title */}
@@ -111,26 +106,20 @@ export default function DemoLeftSidebar({
 
           return (
             <div key={layer.id}>
-              {/* Layer row */}
               <div
                 className={`flex items-center gap-4 px-8 py-5 border-b border-gray-100 transition-colors ${
                   isActive ? "bg-blue-50/60" : "hover:bg-gray-50/80"
                 }`}
               >
-                {/* Color indicator */}
                 <div
                   className="w-4 h-4 rounded-full flex-shrink-0"
                   style={{ backgroundColor: isActive ? layer.color : "#d1d5db" }}
                 />
-
-                {/* Icon */}
                 <layer.Icon
                   className={`h-5 w-5 flex-shrink-0 ${
                     isActive ? "text-gray-700" : "text-gray-300"
                   }`}
                 />
-
-                {/* Label */}
                 <span
                   className={`flex-1 text-base ${
                     isActive ? "text-gray-900 font-semibold" : "text-gray-500"
@@ -139,14 +128,12 @@ export default function DemoLeftSidebar({
                   {layer.label}
                 </span>
 
-                {/* Zoom badge */}
                 {isActive && needsZoom && (
                   <span className="text-xs text-orange-600 bg-orange-50 px-3 py-1 rounded-full font-semibold whitespace-nowrap border border-orange-200">
                     Zoomer
                   </span>
                 )}
 
-                {/* Eye toggle */}
                 <button
                   onClick={() => onToggleLayer(layer.id)}
                   className={`p-2.5 rounded-xl transition-colors flex-shrink-0 ${
@@ -163,7 +150,6 @@ export default function DemoLeftSidebar({
                   )}
                 </button>
 
-                {/* Filter toggle */}
                 {layer.hasFilters && (
                   <button
                     onClick={() => toggleFilter(layer.id)}
@@ -179,7 +165,6 @@ export default function DemoLeftSidebar({
                 )}
               </div>
 
-              {/* Inline filter sub-panel */}
               {expandedFilter === layer.id && (
                 <div className="px-8 py-6 bg-gray-50 border-b border-gray-100 animate-fade-in">
                   {layer.id === "dvf" && (
@@ -363,5 +348,3 @@ function PermisFilters({
     </div>
   );
 }
-
-export type { LayerFilters };

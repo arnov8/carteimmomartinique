@@ -2,11 +2,11 @@
 
 import type { LayerId } from "@/types";
 
-interface DemoLegendProps {
+interface LegendProps {
   isLayerActive: (id: LayerId) => boolean;
 }
 
-export default function DemoLegend({ isLayerActive }: DemoLegendProps) {
+export default function Legend({ isLayerActive }: LegendProps) {
   return (
     <>
       {isLayerActive("dvf") && (
