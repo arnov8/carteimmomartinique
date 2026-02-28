@@ -13,6 +13,7 @@ import VacanceLayer from "@/components/layers/VacanceLayer";
 import SocialLayer from "@/components/layers/SocialLayer";
 import AttractiviteLayer from "@/components/layers/AttractiviteLayer";
 import AnnoncesLayer from "@/components/layers/AnnoncesLayer";
+import CadastreLayer from "@/components/layers/CadastreLayer";
 import { useMap } from "@/hooks/useMap";
 import { useLayers } from "@/hooks/useLayers";
 import type { SidebarContent } from "@/types";
@@ -88,6 +89,10 @@ export default function Home() {
             map={mapRef.current}
             isActive={isLayerActive("annonces")}
             onFeatureClick={handleFeatureClick}
+          />
+          <CadastreLayer
+            map={mapRef.current}
+            isActive={isLayerActive("cadastre")}
           />
         </>
       )}
@@ -299,6 +304,21 @@ export default function Home() {
                     </span>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* Légende Cadastre */}
+          {isLayerActive("cadastre") && (
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-3 animate-fade-in">
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Cadastre parcellaire
+              </p>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-3 border border-gray-400 bg-transparent rounded-sm" />
+                <span className="text-[9px] text-gray-600">
+                  Parcelles (zoom 14+)
+                </span>
               </div>
             </div>
           )}
