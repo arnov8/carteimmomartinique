@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import maplibregl from "maplibre-gl";
 import { ZOOM_CADASTRE_MIN } from "@/lib/constants";
 
@@ -22,14 +22,11 @@ const CADASTRE_TILE_URL =
   "&FORMAT=image/png";
 
 export default function CadastreLayer({ map, isActive }: CadastreLayerProps) {
-  const loadedRef = useRef(false);
-
   useEffect(() => {
-    if (!map || loadedRef.current) return;
+    if (!map) return;
 
-    const setup = () => {
-      if (map.getSource(SOURCE_ID)) return;
-
+    // Ensure source exists
+    if (!map.getSource(SOURCE_ID)) {
       map.addSource(SOURCE_ID, {
         type: "raster",
         tiles: [CADASTRE_TILE_URL],
@@ -38,30 +35,24 @@ export default function CadastreLayer({ map, isActive }: CadastreLayerProps) {
         maxzoom: 20,
         attribution: "© IGN Cadastre",
       });
+    }
 
+    // Ensure layer exists
+    if (!map.getLayer(RASTER_LAYER)) {
       map.addLayer({
         id: RASTER_LAYER,
         type: "raster",
         source: SOURCE_ID,
         minzoom: ZOOM_CADASTRE_MIN,
-        layout: { visibility: "none" },
-        paint: {
-          "raster-opacity": 0.7,
-        },
+        layout: { visibility: isActive ? "visible" : "none" },
+        paint: { "raster-opacity": 0.7 },
       });
-
-      loadedRef.current = true;
-    };
-
-    if (map.isStyleLoaded()) setup();
-    else map.on("load", setup);
-  }, [map]);
-
-  useEffect(() => {
-    if (!map || !loadedRef.current) return;
-    const vis = isActive ? "visible" : "none";
-    if (map.getLayer(RASTER_LAYER)) {
-      map.setLayoutProperty(RASTER_LAYER, "visibility", vis);
+    } else {
+      map.setLayoutProperty(
+        RASTER_LAYER,
+        "visibility",
+        isActive ? "visible" : "none"
+      );
     }
   }, [map, isActive]);
 
