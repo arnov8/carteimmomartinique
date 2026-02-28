@@ -9,6 +9,9 @@ import Sidebar from "@/components/sidebar/Sidebar";
 import DvfLayer from "@/components/layers/DvfLayer";
 import RisquesLayer from "@/components/layers/RisquesLayer";
 import PermisLayer from "@/components/layers/PermisLayer";
+import VacanceLayer from "@/components/layers/VacanceLayer";
+import SocialLayer from "@/components/layers/SocialLayer";
+import AttractiviteLayer from "@/components/layers/AttractiviteLayer";
 import { useMap } from "@/hooks/useMap";
 import { useLayers } from "@/hooks/useLayers";
 import type { SidebarContent } from "@/types";
@@ -63,6 +66,21 @@ export default function Home() {
           <PermisLayer
             map={mapRef.current}
             isActive={isLayerActive("permis")}
+            onFeatureClick={handleFeatureClick}
+          />
+          <VacanceLayer
+            map={mapRef.current}
+            isActive={isLayerActive("vacance")}
+            onFeatureClick={handleFeatureClick}
+          />
+          <SocialLayer
+            map={mapRef.current}
+            isActive={isLayerActive("social")}
+            onFeatureClick={handleFeatureClick}
+          />
+          <AttractiviteLayer
+            map={mapRef.current}
+            isActive={isLayerActive("attractivite")}
             onFeatureClick={handleFeatureClick}
           />
         </>
@@ -201,6 +219,81 @@ export default function Home() {
                     <span className="text-[9px] text-gray-600">
                       {item.label}
                     </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Légende Vacance */}
+          {isLayerActive("vacance") && (
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-3 animate-fade-in">
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Taux de vacance
+              </p>
+              <div className="flex items-center gap-1">
+                {[
+                  { color: "#22c55e", label: "< 5%" },
+                  { color: "#84cc16", label: "" },
+                  { color: "#eab308", label: "10%" },
+                  { color: "#f97316", label: "" },
+                  { color: "#ef4444", label: "> 20%" },
+                ].map((item, i) => (
+                  <div key={i} className="flex flex-col items-center">
+                    <div
+                      className="w-6 h-2.5 rounded-sm"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    {item.label && (
+                      <span className="text-[8px] text-gray-500 mt-0.5">
+                        {item.label}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Légende Parc Social */}
+          {isLayerActive("social") && (
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-3 animate-fade-in">
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Parc social (RPLS)
+              </p>
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-violet-500 opacity-50" />
+                <span className="text-[9px] text-gray-600">
+                  Taille = nb logements
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Légende Attractivité */}
+          {isLayerActive("attractivite") && (
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-3 animate-fade-in">
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Score d&apos;attractivité
+              </p>
+              <div className="flex items-center gap-1">
+                {[
+                  { color: "#ef4444", label: "< 35" },
+                  { color: "#f97316", label: "" },
+                  { color: "#eab308", label: "50" },
+                  { color: "#84cc16", label: "" },
+                  { color: "#22c55e", label: "> 80" },
+                ].map((item, i) => (
+                  <div key={i} className="flex flex-col items-center">
+                    <div
+                      className="w-6 h-2.5 rounded-sm"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    {item.label && (
+                      <span className="text-[8px] text-gray-500 mt-0.5">
+                        {item.label}
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>

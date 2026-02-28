@@ -163,7 +163,10 @@ export interface SidebarContent {
     | "plu"
     | "permis"
     | "annonce"
-    | "analyse";
+    | "analyse"
+    | "vacance"
+    | "social"
+    | "attractivite";
   data: Record<string, unknown>;
   title: string;
 }

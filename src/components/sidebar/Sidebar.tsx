@@ -6,6 +6,9 @@ import TransactionPanel from "./panels/TransactionPanel";
 import ZoneStatsPanel from "./panels/ZoneStatsPanel";
 import RisquesPanel from "./panels/RisquesPanel";
 import PermisPanel from "./panels/PermisPanel";
+import VacancePanel from "./panels/VacancePanel";
+import SocialPanel from "./panels/SocialPanel";
+import AttractivitePanel from "./panels/AttractivitePanel";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -90,6 +93,19 @@ function SidebarBody({ content }: { content: SidebarContent | null }) {
       return <RisquesPanel data={content.data} />;
     case "permis":
       return <PermisPanel data={content.data} />;
+    case "analyse": {
+      const panel = content.data.panel as string;
+      if (panel === "vacance") return <VacancePanel data={content.data} />;
+      if (panel === "social") return <SocialPanel data={content.data} />;
+      if (panel === "attractivite") return <AttractivitePanel data={content.data} />;
+      return (
+        <div className="p-4 bg-blue-50 rounded-xl">
+          <p className="text-sm text-blue-800">
+            Analyse &quot;{panel}&quot; — bientôt disponible.
+          </p>
+        </div>
+      );
+    }
     default:
       return (
         <div className="p-4 bg-blue-50 rounded-xl">
