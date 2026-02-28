@@ -12,6 +12,7 @@ import PermisLayer from "@/components/layers/PermisLayer";
 import VacanceLayer from "@/components/layers/VacanceLayer";
 import SocialLayer from "@/components/layers/SocialLayer";
 import AttractiviteLayer from "@/components/layers/AttractiviteLayer";
+import AnnoncesLayer from "@/components/layers/AnnoncesLayer";
 import { useMap } from "@/hooks/useMap";
 import { useLayers } from "@/hooks/useLayers";
 import type { SidebarContent } from "@/types";
@@ -81,6 +82,11 @@ export default function Home() {
           <AttractiviteLayer
             map={mapRef.current}
             isActive={isLayerActive("attractivite")}
+            onFeatureClick={handleFeatureClick}
+          />
+          <AnnoncesLayer
+            map={mapRef.current}
+            isActive={isLayerActive("annonces")}
             onFeatureClick={handleFeatureClick}
           />
         </>
@@ -266,6 +272,33 @@ export default function Home() {
                 <span className="text-[9px] text-gray-600">
                   Taille = nb logements
                 </span>
+              </div>
+            </div>
+          )}
+
+          {/* Légende Annonces */}
+          {isLayerActive("annonces") && (
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-3 animate-fade-in">
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Annonces en cours
+              </p>
+              <div className="flex items-center gap-2">
+                {[
+                  { color: "#f97316", label: "Maison" },
+                  { color: "#3b82f6", label: "Appart." },
+                  { color: "#22c55e", label: "Terrain" },
+                  { color: "#8b5cf6", label: "Local" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-1">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <span className="text-[9px] text-gray-600">
+                      {item.label}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           )}
