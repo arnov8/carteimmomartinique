@@ -6,10 +6,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "ingest:dvf": "tsx scripts/ingest-dvf.ts",
+    "ingest:dvf:all": "tsx scripts/ingest-dvf.ts --all",
+    "ingest:cadastre": "tsx scripts/ingest-cadastre.ts",
+    "ingest:risques": "tsx scripts/ingest-risques.ts",
+    "ingest:insee": "tsx scripts/ingest-insee.ts",
+    "ingest:permis": "tsx scripts/ingest-permis.ts",
+    "ingest:all": "npm run ingest:dvf:all && npm run ingest:cadastre && npm run ingest:risques && npm run ingest:permis && npm run ingest:insee"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.98.0",
+    "csv-parse": "^6.1.0",
+    "dotenv": "^17.3.1",
     "lucide-react": "^0.575.0",
     "maplibre-gl": "^5.19.0",
     "next": "16.1.6",
@@ -24,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }
