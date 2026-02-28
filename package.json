@@ -13,7 +13,9 @@
     "ingest:risques": "tsx scripts/ingest-risques.ts",
     "ingest:insee": "tsx scripts/ingest-insee.ts",
     "ingest:permis": "tsx scripts/ingest-permis.ts",
-    "ingest:all": "npm run ingest:dvf:all && npm run ingest:cadastre && npm run ingest:risques && npm run ingest:permis && npm run ingest:insee"
+    "ingest:lovac": "tsx scripts/ingest-lovac.ts",
+    "ingest:rpls": "tsx scripts/ingest-rpls.ts",
+    "ingest:all": "npm run ingest:dvf:all && npm run ingest:cadastre && npm run ingest:risques && npm run ingest:permis && npm run ingest:insee && npm run ingest:lovac && npm run ingest:rpls"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.98.0",
