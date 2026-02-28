@@ -29,11 +29,11 @@ export default function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
           />
         </svg>
       </div>
-      <div className="flex items-baseline">
-        <span className="font-bold text-gray-900 tracking-tight">
+      <div className="flex items-baseline font-heading">
+        <span className="font-extrabold text-gray-900 tracking-tighter">
           CarteImmo
         </span>
-        <span className="font-bold text-blue-600 tracking-tight">
+        <span className="font-extrabold text-blue-600 tracking-tighter">
           Martinique
         </span>
       </div>

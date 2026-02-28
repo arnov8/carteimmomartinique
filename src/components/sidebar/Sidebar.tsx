@@ -60,7 +60,7 @@ function SidebarHeader({
     <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
       <div className="flex items-center gap-2 min-w-0">
         <MapPin className="h-4 w-4 text-blue-600 flex-shrink-0" />
-        <h2 className="text-base font-semibold text-gray-900 truncate">
+        <h2 className="text-base font-semibold text-gray-900 truncate font-heading">
           {title || "Détails"}
         </h2>
       </div>
