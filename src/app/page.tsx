@@ -7,6 +7,8 @@ import SearchBar from "@/components/map/SearchBar";
 import LayerSelector from "@/components/map/LayerSelector";
 import Sidebar from "@/components/sidebar/Sidebar";
 import DvfLayer from "@/components/layers/DvfLayer";
+import RisquesLayer from "@/components/layers/RisquesLayer";
+import PermisLayer from "@/components/layers/PermisLayer";
 import { useMap } from "@/hooks/useMap";
 import { useLayers } from "@/hooks/useLayers";
 import type { SidebarContent } from "@/types";
@@ -51,6 +53,16 @@ export default function Home() {
           <DvfLayer
             map={mapRef.current}
             isActive={isLayerActive("dvf")}
+            onFeatureClick={handleFeatureClick}
+          />
+          <RisquesLayer
+            map={mapRef.current}
+            isActive={isLayerActive("risques")}
+            onFeatureClick={handleFeatureClick}
+          />
+          <PermisLayer
+            map={mapRef.current}
+            isActive={isLayerActive("permis")}
             onFeatureClick={handleFeatureClick}
           />
         </>
@@ -108,36 +120,92 @@ export default function Home() {
         content={sidebarContent}
       />
 
-      {/* Legend (quand DVF est active) */}
-      {isMapReady && isLayerActive("dvf") && (
-        <div className="absolute bottom-10 left-3 z-10 pointer-events-auto animate-fade-in">
-          <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-3">
-            <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
-              Prix au m²
-            </p>
-            <div className="flex items-center gap-1">
-              {[
-                { color: "#22c55e", label: "< 1 500€" },
-                { color: "#84cc16", label: "" },
-                { color: "#eab308", label: "2 000€" },
-                { color: "#f97316", label: "" },
-                { color: "#ef4444", label: "3 000€" },
-                { color: "#dc2626", label: "> 4 000€" },
-              ].map((item, i) => (
-                <div key={i} className="flex flex-col items-center">
-                  <div
-                    className="w-6 h-2.5 rounded-sm"
-                    style={{ backgroundColor: item.color }}
-                  />
-                  {item.label && (
-                    <span className="text-[8px] text-gray-500 mt-0.5">
+      {/* Légendes dynamiques */}
+      {isMapReady && (
+        <div className="absolute bottom-10 left-3 z-10 pointer-events-auto space-y-2">
+          {/* Légende DVF */}
+          {isLayerActive("dvf") && (
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-3 animate-fade-in">
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Prix au m²
+              </p>
+              <div className="flex items-center gap-1">
+                {[
+                  { color: "#22c55e", label: "< 1 500€" },
+                  { color: "#84cc16", label: "" },
+                  { color: "#eab308", label: "2 000€" },
+                  { color: "#f97316", label: "" },
+                  { color: "#ef4444", label: "3 000€" },
+                  { color: "#dc2626", label: "> 4 000€" },
+                ].map((item, i) => (
+                  <div key={i} className="flex flex-col items-center">
+                    <div
+                      className="w-6 h-2.5 rounded-sm"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    {item.label && (
+                      <span className="text-[8px] text-gray-500 mt-0.5">
+                        {item.label}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Légende Risques */}
+          {isLayerActive("risques") && (
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-3 animate-fade-in">
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Niveau de risque
+              </p>
+              <div className="flex items-center gap-2">
+                {[
+                  { color: "#22c55e", label: "Faible" },
+                  { color: "#eab308", label: "Moyen" },
+                  { color: "#f97316", label: "Fort" },
+                  { color: "#ef4444", label: "Très fort" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-1">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <span className="text-[9px] text-gray-600">
                       {item.label}
                     </span>
-                  )}
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Légende Permis */}
+          {isLayerActive("permis") && (
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-3 animate-fade-in">
+              <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                Permis de construire
+              </p>
+              <div className="flex items-center gap-2">
+                {[
+                  { color: "#22c55e", label: "Accordé" },
+                  { color: "#3b82f6", label: "En cours" },
+                  { color: "#ef4444", label: "Refusé" },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-1">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full"
+                      style={{ backgroundColor: item.color }}
+                    />
+                    <span className="text-[9px] text-gray-600">
+                      {item.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

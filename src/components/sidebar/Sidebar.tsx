@@ -4,6 +4,8 @@ import { X, MapPin } from "lucide-react";
 import type { SidebarContent } from "@/types";
 import TransactionPanel from "./panels/TransactionPanel";
 import ZoneStatsPanel from "./panels/ZoneStatsPanel";
+import RisquesPanel from "./panels/RisquesPanel";
+import PermisPanel from "./panels/PermisPanel";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -84,6 +86,10 @@ function SidebarBody({ content }: { content: SidebarContent | null }) {
       return <TransactionPanel data={content.data} />;
     case "zone_stats":
       return <ZoneStatsPanel data={content.data} />;
+    case "risque":
+      return <RisquesPanel data={content.data} />;
+    case "permis":
+      return <PermisPanel data={content.data} />;
     default:
       return (
         <div className="p-4 bg-blue-50 rounded-xl">
