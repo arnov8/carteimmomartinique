@@ -18,14 +18,14 @@
     "ingest:all": "npm run ingest:dvf:all && npm run ingest:cadastre && npm run ingest:risques && npm run ingest:permis && npm run ingest:insee && npm run ingest:lovac && npm run ingest:rpls"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.98.0",
-    "csv-parse": "^6.1.0",
+    "@supabase/supabase-js": "^2.101.1",
+    "csv-parse": "^6.2.1",
     "dotenv": "^17.3.1",
     "lucide-react": "^0.575.0",
-    "maplibre-gl": "^5.19.0",
-    "next": "16.1.6",
-    "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "maplibre-gl": "^5.21.1",
+    "next": "16.2.2",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -33,7 +33,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
+    "eslint-config-next": "16.2.2",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"
